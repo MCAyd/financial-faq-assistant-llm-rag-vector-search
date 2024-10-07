@@ -103,3 +103,34 @@ Name: count, dtype: int64
 ```
 
 By utilizing both quantitative measures (cosine similarity) and qualitative judgment (LLM-as-judge), the GPT-4o-mini model was found to provide higher-quality responses in this financial question-answering task.
+
+### Producing the App and Monitoring it
+Finally, with the optimal retrieval method and the best-performing model for RAG identified, the project moved on to the development of an app capable of handling user input. The goal was to create an interface where users could interact with the system. In this phase, `app.py` manages the user interface using Streamlit to handle user interactions, while `assistant.py` operates in the background, handling the large language model (LLM), RAG model, and communicating with the Elasticsearch database for retrieving relevant information.
+
+In addition, `db.py` was designed to ensure reusability and facilitate monitoring by saving user conversations and feedback into a `postgreSQL database`. This enables users to view their `recent conversations` through the interface, enhancing the user experience by allowing access to past interactions. For `monitoring` purposes, the integration with `Grafana` provides `real-time` insights into the model’s performance, including generated answers and user feedback. This setup allows both users and administrators to keep track of how the model is performing and make necessary adjustments based on live feedback and performance data.
+
+This completes the system by offering a robust solution for querying financial data, improving retrieval accuracy, and providing an easy-to-use interface with real-time performance monitoring.
+
+### Running the App
+
+Make sure that `.env` and `app/.env` file have your `OPENAI API KEY`. The files will capture the key automatically.
+
+Then let's run in the app folder;
+
+```bash
+docker-compose build
+docker-compose up
+```
+
+After waiting few seconds and elasticsearch is running properly, in another terminal execute;
+
+```bash
+python3 prep.py
+```
+
+Once prep.py is executed and finished, head over to `localhost:8501` for interface, and `localhost:3000` for `Grafana`. If dashboard not appeared, use `Financial FAQ Bot Dashboard.json` file to import already created visualisations by connecting your `postgreSQL db` available at `localhost:5432`.
+
+
+### Grafana Dashboard
+
+![Alt text](./assets/dashboard_ss.png)
