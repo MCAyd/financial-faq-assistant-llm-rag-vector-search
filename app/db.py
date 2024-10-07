@@ -37,6 +37,30 @@ def get_db_connection():
 
     return connection
 
+def prep_db():
+        try:
+            conn = psycopg2.connect(
+            host="localhost",
+            database="postgres",
+            port=os.getenv("POSTGRES_PORT"),
+            user=os.getenv("POSTGRES_USER"),
+            password=os.getenv("POSTGRES_PASSWORD"))
+    
+            db_name = os.getenv("POSTGRES_DB")
+            conn.autocommit = True
+
+            with conn.cursor() as cur:
+                cur.execute(f"SELECT 1 FROM pg_database WHERE datname = '{db_name}'")
+                
+                if cur.fetchone() is None:
+                    cur.execute(f"CREATE DATABASE {db_name};")
+                    print(f"Database created: {db_name}")
+                else:
+                    print(f"Database already exists: {db_name}")
+        finally:
+            conn.close()
+            
+                    
 def init_db():
     conn = get_db_connection()
     try:
