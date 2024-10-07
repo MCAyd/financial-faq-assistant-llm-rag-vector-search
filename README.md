@@ -133,4 +133,4 @@ Once prep.py is executed and finished, head over to `localhost:8501` for interfa
 
 ### Grafana Dashboard
 
-![Alt text](./assets/dashboard_ss.png)
+![Alt text](./dashboard_ss.png)
